@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Post;
 
 class UserController extends Controller
 {
@@ -24,7 +26,29 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('users.home');
+
+        // $posts = Post::with('user')->get();
+
+            $posts = Post::with('user')
+            ->where('user_id', Auth::user()->id )
+            ->get();
+
+
+            // Using DB class
+            //$post = DB::select('SELECT * FROM posts WHERE posts.user_id=?', [3]);
+            
+            // $post = DB::table('posts')->where('user_id', 3)->first();
+            
+            $posts = DB::table('posts')
+                ->join('users', 'posts.user_id', '=', 'users.id')
+                ->select('posts.*', 'users.first_name','users.last_name')
+                ->where('user_id', 3)
+                ->get();
+            dd($posts);
+
+        return view('users.home', [
+            'posts' => $posts
+        ]);
     }
 
     public function edit(){
@@ -55,7 +79,15 @@ class UserController extends Controller
             $user->avatar = $filename;
         }
 
-        $user->save();
+        $result = $user->save();
+
+        if (!$result)
+            return redirect()
+                ->route('user.edit')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => 'The user update failed.'
+                ]);
 
         return redirect()
             ->route('user.edit')

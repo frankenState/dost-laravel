@@ -24,7 +24,26 @@
                     @endif
 
                     <h1 class="display-4">Welcome {{Auth::user()->first_name }} {{Auth::user()->last_name}}</h1>
-                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magni voluptatem quod dicta voluptatum eos dolorum est a ab repellat. Illum qui, facere eaque quae vero praesentium vel deleniti molestias?</p>
+
+                    @if (count($posts) > 0)
+                        <div class="row">
+                            @foreach ($posts as $post)
+                            <div class="col-4">
+                                <div class="card mt-2">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{$post->title}}</h3>
+                                        <p class="lead">
+                                            {{ $post->body }}
+                                        </p>
+                                        <small>Posted by {{ $post->user->first_name }} {{ $post->user->last_name }} on {{ $post->created_at }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p>This user doesn't have any post.</p>
+                    @endif
                 </div>
             </div>
         </div>
