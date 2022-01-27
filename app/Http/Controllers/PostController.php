@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -12,9 +13,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return view('posts.index', [
+            'posts' => Post::with('user')->get()
+        ]);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -35,7 +37,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $post = new Post();
+        $post->title = $data['title'];
+        $post->body = $data['body'];
+        $post->user_id = Auth::user()->id;
+        $post->save();
+
+        return redirect()
+            ->route('posts.create')
+            ->with('status', [
+                'type' => 'success',
+                'message' => 'The post was created successfully'
+            ]);
     }
 
     /**
@@ -55,9 +73,13 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        
+        return view('posts.edit', [
+            'post' => $post
+        ]);
     }
 
     /**
@@ -69,7 +91,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        
     }
 
     /**

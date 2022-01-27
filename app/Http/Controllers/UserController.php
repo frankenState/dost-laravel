@@ -39,12 +39,12 @@ class UserController extends Controller
             
             // $post = DB::table('posts')->where('user_id', 3)->first();
             
-            $posts = DB::table('posts')
-                ->join('users', 'posts.user_id', '=', 'users.id')
-                ->select('posts.*', 'users.first_name','users.last_name')
-                ->where('user_id', 3)
-                ->get();
-            dd($posts);
+            // $posts = DB::table('posts')
+            //     ->join('users', 'posts.user_id', '=', 'users.id')
+            //     ->select('posts.*', 'users.first_name','users.last_name')
+            //     ->where('user_id', 3)
+            //     ->get();
+            // dd($posts);
 
         return view('users.home', [
             'posts' => $posts
