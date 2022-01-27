@@ -12,7 +12,9 @@ class PostController extends Controller
         $this->middleware('auth');
     }
 
-    public function search($key){
+    public function search(Request $request){
+        $key = $request->key;
+        
         $posts = Post::with('user')
             ->where('title', 'like', "%{$key}%")
             ->get();

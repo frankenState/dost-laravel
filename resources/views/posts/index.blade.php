@@ -12,6 +12,13 @@
                 </div>
             @endif
 
+            <form action="{{ route('posts.search') }}" method="GET">
+                <div class="input-group mb-3">
+                    <input name="key" type="text" class="form-control" placeholder="Search Key" aria-label="Search Key" aria-describedby="Search Key" value={{ old('key') }}>
+                    <button type="submit" class="btn btn-outline-dark" type="button" id="Search Key">Search</button>
+                </div>
+            </form>
+
             <h2 class="display-4">Welcome to Posts Page</h2>
 
             @if (count($posts) > 0)
