@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
+    public function search($key){
+        $posts = Post::with('user')
+            ->where('title', 'like', "%{$key}%")
+            ->get();
+
+        return view('posts.index', ['posts' => $posts]);
+    }
     /**
      * Display a listing of the resource.
      *
