@@ -62,9 +62,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        return view('posts.show', [
+            'post' => Post::findOrFail($id)
+        ]);
     }
 
     /**
@@ -77,6 +79,14 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         
+        if ($post->user_id != Auth::user()->id)
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You don't have the privilege for this action."
+                ]);        
+
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -89,9 +99,35 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
-    {
+    public function update(Request $request, $id) {
+
+        $data = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id != Auth::user()->id)
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You don't have the privilege for this action"
+                ]);
+
         
+
+        $post->title = $data['title'];
+        $post->body = $data['body'];
+        $post->save();
+
+        return redirect()
+            ->route('posts.edit', ['id' => $post->id ])
+            ->with('status', [
+                'type' => 'success',
+                'message' => 'Post update is successful'
+            ]);
     }
 
     /**

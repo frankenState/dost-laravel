@@ -5,6 +5,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 m-auto">
+
+            @if (session('status'))
+                <div class="alert alert-{{ session('status')['type'] }}">
+                    <small>{{ session('status')['message'] }}</small>
+                </div>
+            @endif
+
             <h2 class="display-4">Welcome to Posts Page</h2>
 
             @if (count($posts) > 0)
@@ -17,9 +24,11 @@
                     </div>
                     <div class="card-footer">
                         <div class="btn-group">
-                            <a href="#" class="btn btn-outline-dark btn-sm">View</a>
+                            <a href="{{ route('posts.show', [ 'id' => $post->id ]) }}" class="btn btn-outline-dark btn-sm">View</a>
+                        @if (Auth::user()->id == $post->user_id)
                             <a href="{{ route('posts.edit', [ 'id' => $post->id ]) }}" class="btn btn-outline-dark btn-sm">Edit</a>
                             <a href="#" class="btn btn-outline-dark btn-sm">Delete</a>
+                        @endif
                         </div>
                     </div>
                 </div>

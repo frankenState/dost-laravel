@@ -13,7 +13,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('posts.update') }}" method="POST">
+            <form action="{{ route('posts.update', ['id' => $post->id]) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
@@ -34,7 +34,7 @@
                     @enderror
                 </div>
 
-                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary">Save</button>
                 <a href="{{ route('posts.index') }}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>

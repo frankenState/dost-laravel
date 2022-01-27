@@ -55,9 +55,10 @@ Route::prefix('posts')->group(function(){
    Route::get('/', [PostController::class, 'index'])->name('posts.index');
    Route::get('/create', [PostController::class, 'create'])->name('posts.create');
    Route::get('/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+   Route::get('/view/{id}', [PostController::class, 'show'])->name('posts.show');
    
    Route::post('/save', [PostController::class, 'store'])->name('posts.save');
-   Route::post('/update', [PostController::class, 'update'])->name('posts.update');
+   Route::post('/update/{id}', [PostController::class, 'update'])->name('posts.update');
 });
 
 Auth::routes();
