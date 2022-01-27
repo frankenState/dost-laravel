@@ -27,7 +27,7 @@
                             <a href="{{ route('posts.show', [ 'id' => $post->id ]) }}" class="btn btn-outline-dark btn-sm">View</a>
                         @if (Auth::user()->id == $post->user_id)
                             <a href="{{ route('posts.edit', [ 'id' => $post->id ]) }}" class="btn btn-outline-dark btn-sm">Edit</a>
-                            <a href="#" class="btn btn-outline-dark btn-sm">Delete</a>
+                            <a href="{{ route('posts.delete', ['id' => $post->id ]) }}" class="btn btn-outline-dark btn-sm">Delete</a>
                         @endif
                         </div>
                     </div>

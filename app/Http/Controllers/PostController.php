@@ -130,14 +130,53 @@ class PostController extends Controller
             ]);
     }
 
+
+    public function delete($id){
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::user()->id)
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You are not allowed to delete this post."
+                ]);
+
+        return view('posts.delete', [
+            'post' => $post
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        
+        if (Auth::user()->id != $post->user_id)
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type'=> 'danger',
+                    'message' => "You don't have the privilege to delete this post."
+                ]);
+
+        if ( $post->delete() ){
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'success',
+                    'message' => "The post delete is successful"
+                ]);
+        } else return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "The post delete is unsuccesful"
+                ]);
+                
+         
     }
 }
