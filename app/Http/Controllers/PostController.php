@@ -12,6 +12,10 @@ class PostController extends Controller
         $this->middleware('auth');
     }
 
+    public function vuepostapp(){
+        return view('posts.vuepostsapp');
+    }
+
     public function search(Request $request){
         $key = $request->key;
         
