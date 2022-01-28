@@ -5,7 +5,7 @@
                 <h3 class="display-4">Post CRUD using VueJs</h3>
                 <div class="input-group mb-3">
                     <input v-model="searchKey" type="text" class="form-control" placeholder="Search" aria-label="Search">
-                    <button @click="searchPost" class="btn btn-outline-secondary" type="button">Button</button>
+                    <button @click="searchPost" class="btn btn-outline-secondary" type="button">Search</button>
                 </div>
                 <Create @update-posts="updatePosts" />
                 <Read 

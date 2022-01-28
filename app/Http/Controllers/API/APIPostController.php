@@ -16,6 +16,7 @@ class APIPostController extends Controller
     public function search($key){
         $posts = Post::with('user')
             ->where('title', 'like', "%$key%")
+            ->orWhere('body', 'like', "%$key%")
             ->get();
             
 

@@ -23033,7 +23033,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "btn btn-outline-secondary",
     type: "button"
-  }, "Button")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Create, {
+  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Create, {
     onUpdatePosts: $options.updatePosts
   }, null, 8
   /* PROPS */
